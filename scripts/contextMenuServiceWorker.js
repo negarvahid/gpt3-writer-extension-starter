@@ -12,7 +12,9 @@ const getKey = () => {
 
 const sendMessage = (content) => {
 	chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-		const activeTab = tabs[0].id;
+		const tab = tabs.find(tab => tab.active && tab.currentWindow);
+	if (tab) {
+  	const activeTab = tab.id;
 
 		chrome.tabs.sendMessage(
 			activeTab,
@@ -23,8 +25,9 @@ const sendMessage = (content) => {
 				}
 			}
 		);
-	});
-};
+		});
+	
+	};
 
 // Setup our generate function
 const generate = async (prompt) => {
